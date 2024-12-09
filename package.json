@@ -1,0 +1,19 @@
+{
+  "name": "dev_tinder_back",
+  "version": "1.0.0",
+  "description": "Tinder for developers (Software Engineers)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Ronak Amin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
