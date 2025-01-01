@@ -1,2 +1,3 @@
 - Difference between app.use and app.all
 - Diffference between JS Objects and JSON
+- Difference between PUT method and Patch method
