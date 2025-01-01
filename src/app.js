@@ -1,22 +1,33 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
+const connectDB = require("./config/database");
+const User = require("./models/user");
 
-app.get("/getUserData", (req, res) => {
+app.use(express.json());
+
+app.post("/signup", async (req, res) => {
+  // Creating a new instance of the User Model
+  const user = new User(req.body);
+
   try {
-    // throw new Error("Error unexpected");
-    res.send("User Data sent");
+    await user.save();
+    res.send("User added successfully.");
   } catch (error) {
-    res.status(500).send("Something went wrong. Please contact support team.");
+    console.log(error);
+    res.status(400).send("Error adding the user: ", error);
   }
 });
 
-app.use("/", (err, req, res, next) => {
-  if (err) {
-    res.status(500).send("Something went wrong.");
-  }
-});
+connectDB()
+  .then(() => {
+    console.log("Database connection established...");
 
-const port = 8080;
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}...`);
-});
+    const port = process.env.PORT || 8080;
+    app.listen(port, () => {
+      console.log(`Server is listening on port ${port}...`);
+    });
+  })
+  .catch((error) => {
+    console.log("Database cannot be connected!!!", error);
+  });
