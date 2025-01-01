@@ -15,7 +15,7 @@ app.post("/signup", async (req, res) => {
     res.send("User added successfully.");
   } catch (error) {
     console.log(error);
-    res.status(400).send("Error adding the user: ", error);
+    res.status(400).send(error);
   }
 });
 
@@ -61,7 +61,7 @@ app.patch("/user", async (req, res) => {
   const userId = req.body.userId;
   const data = req.body;
   try {
-    await User.findByIdAndUpdate(userId, data);
+    await User.findByIdAndUpdate(userId, data, { runValidators: true });
     res.send("User updated successfully.");
   } catch (error) {
     console.log(error);
