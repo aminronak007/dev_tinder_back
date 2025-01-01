@@ -1,16 +1,19 @@
 const express = require("express");
 const app = express();
 
-app.use("/test", (req, res) => {
-  res.send("Test from the server!");
+app.get("/getUserData", (req, res) => {
+  try {
+    // throw new Error("Error unexpected");
+    res.send("User Data sent");
+  } catch (error) {
+    res.status(500).send("Something went wrong. Please contact support team.");
+  }
 });
 
-app.use("/hello", (req, res) => {
-  res.send("Hello from the server!");
-});
-
-app.use("/", (req, res) => {
-  res.send("Hello from the dashboard!");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong.");
+  }
 });
 
 const port = 8080;
