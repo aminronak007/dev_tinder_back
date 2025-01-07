@@ -20,3 +20,4 @@
 - GET /connections
 - GET /request
 - GET - /feed - Gets you the profiles of other users on platform 
+

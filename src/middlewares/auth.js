@@ -15,7 +15,7 @@ const userAuth = async (req, res, next) => {
     // Find the user
     const { _id } = decodedObj;
     const user = await User.findById(_id).select(
-      "_id firstName lastName email"
+      "_id firstName lastName email skills age about photoUrl"
     );
 
     if (!user) {
