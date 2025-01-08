@@ -41,11 +41,15 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      validate(value) {
-        if (!["male", "female", "others"].includes(value)) {
-          throw new Error("Gender data is not valid");
-        }
+      enum: {
+        values: ["male", "femal", "others"],
+        message: "{VALUE} is not a valid gender type",
       },
+      // validate(value) {
+      //   if (!["male", "female", "others"].includes(value)) {
+      //     throw new Error("Gender data is not valid");
+      //   }
+      // },
     },
     photoUrl: {
       type: String,
@@ -98,4 +102,5 @@ userSchema.methods.getJwt = function () {
   });
 };
 
-module.exports = mongoose.model("User", userSchema);
+const UserModel = new mongoose.model("User", userSchema);
+module.exports = UserModel;
