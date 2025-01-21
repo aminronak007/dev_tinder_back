@@ -5,7 +5,7 @@ const {
   validationLoginData,
 } = require("../utils/validation");
 
-router.post("/signup", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     // Validation of data
     validateSignUpData(req);
@@ -50,13 +50,13 @@ router.post("/login", async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
         secure: true,
       });
-      res.send("Login Successful");
+      res.json({ message: "Login Successful", success: true, data: user });
     } else {
       throw new Error("Invalid credentials!");
     }
   } catch (error) {
     console.log(error);
-    res.status(400).send(error.message);
+    res.status(400).json({ message: error.message, success: false });
   }
 });
 
