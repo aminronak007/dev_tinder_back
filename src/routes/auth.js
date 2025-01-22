@@ -19,8 +19,22 @@ router.post("/register", async (req, res) => {
       password,
     });
 
-    await user.save();
-    res.json({ message: "User added successfully.", success: true });
+    const savedUser = await user.save();
+    const token = await savedUser.getJwt();
+
+    // Add the token to cookie and send the response back to the user
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "Strict",
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    res.json({
+      message: "User added successfully.",
+      data: savedUser,
+      success: true,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);

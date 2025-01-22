@@ -6,7 +6,7 @@ const User = require("../models/user");
 router.get("/view", userAuth, (req, res) => {
   try {
     const user = req.user;
-    res.send(user);
+    res.json({ data: user, success: true });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
