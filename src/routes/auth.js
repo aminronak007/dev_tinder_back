@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
         httpOnly: true,
         sameSite: "Strict",
         maxAge: 24 * 60 * 60 * 1000,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
       });
       res.json({ message: "Login Successful", success: true, data: user });
     } else {
@@ -61,11 +61,8 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", async (req, res) => {
-  res
-    .cookie("token", null, {
-      expires: new Date(Date.now()),
-    })
-    .send("Logout Successful!");
+  res.clearCookie("token");
+  res.json({ message: "Logout Successful!", success: true });
 });
 
 module.exports = router;

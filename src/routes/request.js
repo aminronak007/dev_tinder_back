@@ -49,10 +49,7 @@ router.post("/send/:status/:toUserId", userAuth, async (req, res) => {
         ? `${req.user.firstName} is ${status} in ${toUser.firstName}`
         : `${req.user.firstName} had ${status} ${toUser.firstName}`;
 
-    res.send({
-      message: message,
-      data,
-    });
+    res.send({ message: message, data, success: true });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
@@ -84,7 +81,7 @@ router.post("/review/:status/:requestId", userAuth, async (req, res) => {
 
     connectionRequest.status = status;
     const data = await connectionRequest.save();
-    res.json({ message: "Connection request " + status, data });
+    res.json({ message: "Connection request " + status, data, success: true });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);

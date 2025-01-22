@@ -81,7 +81,11 @@ router.get("/feed", userAuth, async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    res.status(200).json({ message: "Data fetched successfully", data: users });
+    res.status(200).json({
+      message: "Data fetched successfully",
+      data: users,
+      success: true,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });

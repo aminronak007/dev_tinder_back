@@ -6,7 +6,9 @@ const userAuth = async (req, res, next) => {
     // Read the token from the req cookies
     const { token } = req.cookies;
     if (!token) {
-      throw new Error("Token is not valid!");
+      return res
+        .status(401)
+        .json({ message: "You are not logged in. Please Login!" });
     }
 
     // Validate the token
@@ -24,7 +26,7 @@ const userAuth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(400).send("Error: " + error.message);
+    res.status(400).json({ message: error.message, success: false });
   }
 };
 
