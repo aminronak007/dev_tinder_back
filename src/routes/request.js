@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
+const sendEmail = require("../utils/sendEmail");
 
 router.post("/send/:status/:toUserId", userAuth, async (req, res) => {
   try {
@@ -48,6 +49,9 @@ router.post("/send/:status/:toUserId", userAuth, async (req, res) => {
       status === "interested"
         ? `${req.user.firstName} is ${status} in ${toUser.firstName}`
         : `${req.user.firstName} had ${status} ${toUser.firstName}`;
+
+    const subject = `A new Friend request from ${req.user.firstName}`;
+    await sendEmail.run(subject, message);
 
     res.send({ message: message, data, success: true });
   } catch (error) {
