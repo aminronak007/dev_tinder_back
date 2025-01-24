@@ -27,7 +27,7 @@ const initializeSocket = (server) => {
       socket.join(room);
     });
 
-    //
+    // hello
 
     socket.on(
       "sendMessage",
