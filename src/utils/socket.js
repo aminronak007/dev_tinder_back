@@ -17,6 +17,7 @@ const initializeSocket = (server) => {
         "https://gadgets-arena.com",
       ],
     },
+    withCredentials: true,
   });
 
   io.on("connection", (socket) => {
@@ -25,6 +26,8 @@ const initializeSocket = (server) => {
       console.log(firstName, "joined Room: ", room);
       socket.join(room);
     });
+
+    //
 
     socket.on(
       "sendMessage",
