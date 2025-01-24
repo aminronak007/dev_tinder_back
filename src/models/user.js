@@ -70,6 +70,13 @@ const userSchema = new mongoose.Schema(
         message: "Skills array must not contain duplicate values.",
       },
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    membershipType: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
