@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("./utils/cronJob");
 
+const http = require("http");
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -31,11 +33,15 @@ app.use("/request", requestRouter);
 app.use("/user", userRouter);
 app.use("/payment", paymentRouter);
 
+const server = http.createServer(app);
+const initializeSocket = require("./utils/socket");
+initializeSocket(server);
+
 connectDB()
   .then(() => {
     console.log("Database connection established...");
     const port = process.env.PORT || 8080;
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Server is listening on port ${port}...`);
     });
   })
