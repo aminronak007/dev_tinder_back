@@ -26,12 +26,14 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const paymentRouter = require("./routes/payment");
+const chatsRouter = require("./routes/chat");
 
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/request", requestRouter);
 app.use("/user", userRouter);
 app.use("/payment", paymentRouter);
+app.use("/chat", chatsRouter);
 
 const server = http.createServer(app);
 const initializeSocket = require("./utils/socket");

@@ -1,5 +1,7 @@
 const socket = require("socket.io");
 const crypto = require("crypto");
+const Chat = require("../models/chat");
+const Connection = require("../models/connectionRequest");
 
 const getSecretRoomId = (userId, targetUserId) => {
   return crypto
@@ -29,11 +31,26 @@ const initializeSocket = (server) => {
 
     socket.on(
       "sendMessage",
-      ({ firstName, userId, targetUserId, text: newMessage }) => {
-        const room = getSecretRoomId(userId, targetUserId);
-        console.log(firstName, " ", newMessage);
+      async ({ firstName, userId, targetUserId, text: newMessage }) => {
+        // Save message to the database
+        try {
+          const room = getSecretRoomId(userId, targetUserId);
+          let chat = await Chat.findOne({
+            participants: { $all: [userId, targetUserId] },
+          });
 
-        io.to(room).emit("getMessage", { firstName, newMessage });
+          if (!chat) {
+            chat = new Chat({
+              participants: [userId, targetUserId],
+              messages: [],
+            });
+          }
+          chat.messages.push({ senderId: userId, text: newMessage });
+          await chat.save();
+          io.to(room).emit("getMessage", { firstName, newMessage });
+        } catch (error) {
+          console.log("Error saving message: ", error);
+        }
       }
     );
 
